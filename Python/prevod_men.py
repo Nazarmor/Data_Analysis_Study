@@ -6,24 +6,24 @@ response = requests.get(f'https://api.exchangeratesapi.io/v1/latest?access_key={
 
 # status_code = requests.get(f'https://api.exchangeratesapi.io/v1/latest?access_key={API_KEY}&base=CZK&symbols=USD,EUR').status_code
 
-# Získat obsah klíče rates - do proměnné uložit slovník všech směnných kurzů
-meny = response.get('rates')
+# Get the exchange rates dictionary from the 'rates' key
+exchange_rates = response.get('rates')
 
-# Získat hodnotu směnného kurzu české koruny
-czk_eur = meny.get('CZK')   # 24.30
+# Get the CZK to EUR exchange rate
+czk_to_eur_rate = exchange_rates.get('CZK')   # 24.30
 
 # Aplikace pro převod CZK -> EUR / EUR -> CZK
 print('-------------------------')
 print('Vítejte v kalkulačce převodu měn')
 print('-------------------------')
-volba = input('1 - Pro převod CZK -> EUR zadej pro převod EUR -> CZK zadej 2: ')
-castka = input('Jakou částku chceš převést?: ')
+conversion_choice = input('1 - Pro převod CZK -> EUR zadej pro převod EUR -> CZK zadej 2: ')
+amount = input('Jakou částku chceš převést?: ')
 
-if volba.isdigit() and int(volba) == 1 and castka.isdigit():      # -> Převádíme CZK -> EUR
-    vysledek = int(castka) / czk_eur
-    print(f'Za {castka} Kč získáte {round(vysledek, 2)} EUR')
-elif volba.isdigit() and int(volba) == 2 and castka.isdigit():    # -> Převádíme EUR -> CZK
-    vysledek = int(castka) * czk_eur
-    print(f'Za {castka} EUR získáte {round(vysledek, 2)} Kč')
-else:               # zadal blbost
+if conversion_choice.isdigit() and int(conversion_choice) == 1 and amount.isdigit():      # -> Converting CZK -> EUR
+    converted_amount = int(amount) / czk_to_eur_rate
+    print(f'Za {amount} Kč získáte {round(converted_amount, 2)} EUR')
+elif conversion_choice.isdigit() and int(conversion_choice) == 2 and amount.isdigit():    # -> Converting EUR -> CZK
+    converted_amount = int(amount) * czk_to_eur_rate
+    print(f'Za {amount} EUR získáte {round(converted_amount, 2)} Kč')
+else:               # Invalid input
     print('Zadal jsi nesmysl.')
